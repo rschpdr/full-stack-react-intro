@@ -10,7 +10,12 @@ router.post("/projects", async (req, res) => {
   const { title, description } = req.body;
 
   try {
-    const response = await Project.create({ title, description, tasks: [] });
+    const response = await Project.create({
+      title,
+      description,
+      tasks: [],
+      owner: req.user._id,
+    });
 
     return res.status(201).json(response);
   } catch (err) {}
@@ -20,7 +25,9 @@ router.post("/projects", async (req, res) => {
 
 router.get("/projects", async (req, res) => {
   try {
-    const response = await Project.find().populate("tasks").exec();
+    const response = await Project.find({ owner: req.user._id })
+      .populate("tasks")
+      .exec();
 
     return res.status(200).json(response);
   } catch (err) {

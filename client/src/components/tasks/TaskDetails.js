@@ -17,8 +17,6 @@ const TaskDetails = () => {
       try {
         const result = await tasksApi.get(`/${id}`);
 
-        console.log(result);
-
         setTask({ ...result.data[0] });
       } catch (err) {
         console.error(err);

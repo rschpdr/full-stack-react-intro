@@ -1,19 +1,23 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
-import projectApi from "../../apis/projects";
+import authApi from "../../apis/auth";
 
-import ProjectForm from "./ProjectForm";
+import AuthForm from "./AuthForm";
 
-const AddProject = (props) => {
+const Login = (props) => {
   const history = useHistory();
 
-  const [project, setProject] = useState({ title: "", description: "" });
+  const [user, setUser] = useState({ username: "", password: "" });
 
   async function handleSubmit(data) {
     try {
       // Colocando uma string em branco como URL, pois os dados que queremos inserir via POST sao sempre o segundo parametro do metodo "post" do Axios
-      await projectApi.post("", { ...data, owner: props.loggedInUser._id });
+      const result = await authApi.post("/login", data);
+
+      props.setUser({ ...result.data });
+
+      localStorage.setItem("loggedInUser", JSON.stringify({ ...result.data }));
       // Redirecionar de volta para lista de Projetos
       history.push("/");
     } catch (err) {
@@ -23,15 +27,16 @@ const AddProject = (props) => {
 
   return (
     <div>
-      <h1>New Project</h1>
+      <h1>Login</h1>
       <hr></hr>
-      <ProjectForm
+      <AuthForm
         handleSubmit={handleSubmit}
-        setProject={setProject}
-        project={project}
+        setUser={setUser}
+        user={user}
+        buttonText="Login"
       />
     </div>
   );
 };
 
-export default AddProject;
+export default Login;

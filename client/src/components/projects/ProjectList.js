@@ -24,13 +24,21 @@ const ProjectList = () => {
       <table className="table table-hover">
         <thead className="thead-dark">
           <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Title</th>
+            <th scope="col" style={{ width: "5%" }}>
+              ID
+            </th>
+            <th scope="col" style={{ width: "15%" }}>
+              Title
+            </th>
             <th scope="col" colSpan="2">
               Description
             </th>
-            <th scope="col"># of tasks</th>
-            <th scope="col">Actions</th>
+            <th scope="col" style={{ width: "10%" }}>
+              # of tasks
+            </th>
+            <th scope="col" style={{ width: "15%" }}>
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -55,7 +63,7 @@ const ProjectList = () => {
               <td>
                 <Link
                   type="button"
-                  className="btn btn-sm btn-warning"
+                  className="btn btn-sm btn-warning mr-2"
                   to={`projects/edit/${project._id}`}
                 >
                   Edit

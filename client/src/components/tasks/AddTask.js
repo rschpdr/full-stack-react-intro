@@ -18,8 +18,6 @@ const AddTask = () => {
     try {
       const result = await tasksApi.post("", data);
 
-      console.log(result);
-
       history.push(`/projects/${projectId}`);
     } catch (err) {
       console.error(err);

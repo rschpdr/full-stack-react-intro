@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <Link className="navbar-brand" to="/">
@@ -19,7 +19,7 @@ const Navbar = () => {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div className="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul className="navbar-nav">
+        <ul className="navbar-nav mr-auto">
           <li className="nav-item active">
             <Link className="nav-link" to="/">
               Projects
@@ -31,6 +31,14 @@ const Navbar = () => {
             </Link>
           </li>
         </ul>
+        <span className="navbar-text mr-2">
+          {props.loggedInUser ? props.loggedInUser.username : ""}
+        </span>
+        {props.loggedInUser._id ? (
+          <Link className="text-light" to="/logout">
+            Logout
+          </Link>
+        ) : null}
       </div>
     </nav>
   );

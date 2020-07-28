@@ -10,7 +10,7 @@ const DeleteProject = () => {
   async function handleClick() {
     try {
       const result = await projectsApi.delete(`/${id}`);
-      console.log(result);
+
       history.push("/");
     } catch (err) {
       console.error(err);
