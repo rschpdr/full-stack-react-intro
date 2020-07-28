@@ -3,6 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import "../assets/styles/App.css";
 
+import { AuthContextComponent } from "../contexts/auth";
+
 import Navbar from "./Navbar";
 import ProjectList from "./projects/ProjectList";
 import AddProject from "./projects/AddProject";
@@ -21,78 +23,30 @@ import Logout from "./auth/Logout";
 import PrivateRoute from "./auth/PrivateRoute";
 
 function App() {
-  const [loggedInUser, setLoggedInUser] = useState({});
-
-  useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("loggedInUser") || '""');
-    setLoggedInUser({ ...storedUser });
-  }, []);
-
   return (
     <BrowserRouter>
-      <Navbar loggedInUser={loggedInUser} />
-      <div className="container-fluid w-75  mt-5">
-        <Switch>
-          <Route path="/signup" component={Signup} />
-          <Route
-            path="/login"
-            render={() => (
-              <Login user={loggedInUser} setUser={setLoggedInUser} />
-            )}
-          />
-          <Route
-            path="/logout"
-            render={() => <Logout setUser={setLoggedInUser} />}
-          />
-          <PrivateRoute
-            path="/"
-            exact
-            component={ProjectList}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/projects/create"
-            component={AddProject}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/projects/edit/:id"
-            component={EditProject}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/projects/delete/:id"
-            component={DeleteProject}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/projects/:id"
-            component={ProjectDetails}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/tasks/:projectId/create"
-            component={AddTask}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/tasks/:id"
-            exact
-            component={TaskDetails}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/tasks/edit/:id"
-            component={EditTask}
-            user={loggedInUser}
-          />
-          <PrivateRoute
-            path="/tasks/delete/:id"
-            component={DeleteTask}
-            user={loggedInUser}
-          />
-        </Switch>
-      </div>
+      <AuthContextComponent>
+        <Navbar />
+        <div className="container-fluid w-75  mt-5">
+          <Switch>
+            <Route path="/signup" component={Signup} />
+            <Route path="/login" render={() => <Login />} />
+            <Route path="/logout" render={() => <Logout />} />
+            <PrivateRoute path="/" exact component={ProjectList} />
+            <PrivateRoute path="/projects/create" component={AddProject} />
+            <PrivateRoute path="/projects/edit/:id" component={EditProject} />
+            <PrivateRoute
+              path="/projects/delete/:id"
+              component={DeleteProject}
+            />
+            <PrivateRoute path="/projects/:id" component={ProjectDetails} />
+            <PrivateRoute path="/tasks/:projectId/create" component={AddTask} />
+            <PrivateRoute path="/tasks/:id" exact component={TaskDetails} />
+            <PrivateRoute path="/tasks/edit/:id" component={EditTask} />
+            <PrivateRoute path="/tasks/delete/:id" component={DeleteTask} />
+          </Switch>
+        </div>
+      </AuthContextComponent>
     </BrowserRouter>
   );
 }

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = (props) => {
+import { AuthContext } from "../contexts/auth";
+
+const Navbar = () => {
+  const authContext = useContext(AuthContext);
+
+  console.log(authContext);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <Link className="navbar-brand" to="/">
@@ -32,9 +38,9 @@ const Navbar = (props) => {
           </li>
         </ul>
         <span className="navbar-text mr-2">
-          {props.loggedInUser ? props.loggedInUser.username : ""}
+          {authContext.loggedInUser ? authContext.loggedInUser.username : ""}
         </span>
-        {props.loggedInUser._id ? (
+        {authContext.loggedInUser._id ? (
           <Link className="text-light" to="/logout">
             Logout
           </Link>
