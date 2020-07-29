@@ -22,6 +22,12 @@ const EditTask = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (task.attachmentUrl) {
+      handleSubmit(task);
+    }
+  }, [task]);
+
   async function handleSubmit(data) {
     try {
       const result = await tasksApi.put(`/${task._id}`, data);
@@ -32,11 +38,33 @@ const EditTask = () => {
     }
   }
 
+  async function handleFileUpload(data) {
+    try {
+      const uploadData = new FormData();
+
+      uploadData.append("attachment", data);
+
+      const result = await tasksApi.post("/upload-attachment", uploadData);
+
+      console.log(result.data.attachmentUrl);
+
+      // Retorna a URL do arquivo no Cloudinary
+      return result.data.attachmentUrl;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div>
       <h1>Edit Task {task.title}</h1>
       <hr></hr>
-      <TaskForm task={task} setTask={setTask} handleSubmit={handleSubmit} />
+      <TaskForm
+        task={task}
+        setTask={setTask}
+        handleSubmit={handleSubmit}
+        handleFileUpload={handleFileUpload}
+      />
     </div>
   );
 };

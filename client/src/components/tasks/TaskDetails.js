@@ -32,6 +32,7 @@ const TaskDetails = () => {
       <div>
         <h3>{task.title}</h3>
         <p>{task.description}</p>
+        <img src={task.attachment} alt="Task attachment" />
       </div>
 
       <Link to={`/projects/${task.project}`}>Back to project</Link>

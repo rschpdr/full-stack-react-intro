@@ -8,6 +8,7 @@ const taskSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Project",
   },
+  attachment: String,
 });
 
 const Task = mongoose.model("Task", taskSchema);
